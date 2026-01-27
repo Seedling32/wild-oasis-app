@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 
-import PropTypes from 'prop-types';
 import Input from '../../ui/Input';
 import Form from '../../ui/Form';
 import Button from '../../ui/Button';
@@ -12,13 +11,8 @@ import FormRow from '../../ui/FormRow';
 import { useForm } from 'react-hook-form';
 import { createCabin } from '../../services/apiCabins';
 
-function CreateCabinForm({ cabinToEdit = {} }) {
-  const { id: editId, ...editValues } = cabinToEdit;
-  const isEditSession = Boolean(editId);
-
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+function CreateCabinForm() {
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
   // console.log(errors);
   const queryClient = useQueryClient();
@@ -112,13 +106,12 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         />
       </FormRow>
 
-      <FormRow label="Cabin photo">
+      <FormRow label="Cabin photo" disabled={isCreating}>
         <FileInput
           id="image"
           accept="image/*"
-          disabled={isCreating}
           {...register('image', {
-            required: isEditSession ? false : 'Please upload a cabin photo',
+            required: 'Please enter a description',
           })}
         />
       </FormRow>
@@ -128,22 +121,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isCreating}>{isEditSession ? 'Save Changes' : 'Create New Cabin'}</Button>
+        <Button disabled={isCreating}>Add cabin</Button>
       </FormRow>
     </Form>
   );
 }
-
-CreateCabinForm.propTypes = {
-  cabinToEdit: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    maxCapacity: PropTypes.number,
-    regularPrice: PropTypes.number,
-    discount: PropTypes.number,
-    description: PropTypes.string,
-    image: PropTypes.string,
-  }),
-};
 
 export default CreateCabinForm;
