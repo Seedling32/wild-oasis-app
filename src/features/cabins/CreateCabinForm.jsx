@@ -9,11 +9,11 @@ import Textarea from '../../ui/Textarea';
 import FormRow from '../../ui/FormRow';
 
 import { useCreateCabin } from './useCreateCabin';
-import { useEditCabin } from './useEditCabin';
+import { useUpdateCabin } from './useUpdateCabin';
 
 function CreateCabinForm({ cabinToEdit = {} }) {
   const { isCreating, createCabin } = useCreateCabin();
-  const { isEditing, editCabin } = useEditCabin();
+  const { isEditing, editCabin } = useUpdateCabin();
   const isWorking = isCreating || isEditing;
 
   const { id: editId, ...editValues } = cabinToEdit;
@@ -136,12 +136,14 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         />
       </FormRow>
 
-      <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
-          Cancel
-        </Button>
-        <Button disabled={isWorking}>{isEditSession ? 'Save Changes' : 'Create New Cabin'}</Button>
+      <FormRow label="Cancel or Submit" className="screen-reader-only">
+        <>
+          {/* type is an HTML attribute! */}
+          <Button variation="secondary" type="reset">
+            Cancel
+          </Button>
+          <Button disabled={isWorking}>{isEditSession ? 'Save Changes' : 'Create New Cabin'}</Button>
+        </>
       </FormRow>
     </Form>
   );
