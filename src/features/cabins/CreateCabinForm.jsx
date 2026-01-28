@@ -11,16 +11,16 @@ import FormRow from '../../ui/FormRow';
 import { useCreateCabin } from './useCreateCabin';
 import { useUpdateCabin } from './useUpdateCabin';
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToUpdate = {} }) {
   const { isCreating, createCabin } = useCreateCabin();
-  const { isEditing, editCabin } = useUpdateCabin();
-  const isWorking = isCreating || isEditing;
+  const { isUpdating, updateCabin } = useUpdateCabin();
+  const isWorking = isCreating || isUpdating;
 
-  const { id: editId, ...editValues } = cabinToEdit;
-  const isEditSession = Boolean(editId);
+  const { id: updateId, ...updateValues } = cabinToUpdate;
+  const isEditSession = Boolean(updateId);
 
   const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
+    defaultValues: isEditSession ? updateValues : {},
   });
 
   const { errors } = formState;
@@ -29,12 +29,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     const image = typeof data.image === 'string' ? data.image : data.image[0];
 
     if (isEditSession)
-      editCabin(
-        { newCabinData: { ...data, image }, id: editId },
+      updateCabin(
+        { newCabinData: { ...data, image }, id: updateId },
         {
-          onSuccess: data => {
+          onSuccess: () => {
             reset();
-            console.log(data);
           },
         },
       );
@@ -42,9 +41,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       createCabin(
         { ...data, image: image },
         {
-          onSuccess: data => {
+          onSuccess: () => {
             reset();
-            console.log(data);
           },
         },
       );
@@ -150,7 +148,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 }
 
 CreateCabinForm.propTypes = {
-  cabinToEdit: PropTypes.shape({
+  cabinToUpdate: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
     maxCapacity: PropTypes.number,
