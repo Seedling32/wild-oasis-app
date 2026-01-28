@@ -1,4 +1,7 @@
-import styled from "styled-components";
+import PropTypes from 'prop-types';
+
+import { createContext, useContext } from 'react';
+import styled from 'styled-components';
 
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -11,7 +14,7 @@ const StyledTable = styled.div`
 
 const CommonRow = styled.div`
   display: grid;
-  grid-template-columns: ${(props) => props.columns};
+  grid-template-columns: ${props => props.columns};
   column-gap: 2.4rem;
   align-items: center;
   transition: none;
@@ -36,9 +39,9 @@ const StyledRow = styled(CommonRow)`
   }
 `;
 
-const StyledBody = styled.section`
-  margin: 0.4rem 0;
-`;
+// const StyledBody = styled.section`
+//   margin: 0.4rem 0;
+// `;
 
 const Footer = styled.footer`
   background-color: var(--color-grey-50);
@@ -52,9 +55,59 @@ const Footer = styled.footer`
   }
 `;
 
-const Empty = styled.p`
-  font-size: 1.6rem;
-  font-weight: 500;
-  text-align: center;
-  margin: 2.4rem;
-`;
+// const Empty = styled.p`
+//   font-size: 1.6rem;
+//   font-weight: 500;
+//   text-align: center;
+//   margin: 2.4rem;
+// `;
+
+const TableContext = createContext();
+
+function Table({ columns, children }) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+function Header({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledHeader role="row" columns={columns}>
+      {children}
+    </StyledHeader>
+  );
+}
+
+function Row({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  );
+}
+
+// function Body({ children }) {}
+
+Table.Header = Header;
+// Table.Body = Body;
+Table.Row = Row;
+Table.Footer = Footer;
+
+Table.propTypes = {
+  columns: PropTypes.string,
+  children: PropTypes.element,
+};
+
+Header.propTypes = {
+  children: PropTypes.element,
+};
+
+Row.propTypes = {
+  children: PropTypes.element,
+};
+
+export default Table;

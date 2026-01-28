@@ -98,7 +98,7 @@ Modal.propTypes = {
 
 Window.propTypes = {
   children: PropTypes.element.isRequired,
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };
 
 Modal.Open = Open;
