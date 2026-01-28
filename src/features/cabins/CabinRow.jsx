@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { HiSquare2Stack, HiPencil, HiTrash } from 'react-icons/hi2';
 
 import CreateCabinForm from './CreateCabinForm';
 import { useDeleteCabin } from './useDeleteCabin';
 import { formatCurrency } from '../../utils/helpers';
+import { useCreateCabin } from './useCreateCabin';
 
 const TableRow = styled.div`
   display: grid;
@@ -47,9 +49,22 @@ const Discount = styled.div`
 `;
 
 const CabinRow = ({ cabin }) => {
-  const { isDeleting, deleteCabin } = useDeleteCabin();
-  const { id: cabinId, name, maxCapacity, regularPrice, discount, image } = cabin;
+  const { id: cabinId, name, maxCapacity, regularPrice, discount, image, description } = cabin;
+
   const [showForm, setShowForm] = useState(false);
+  const { isDeleting, deleteCabin } = useDeleteCabin();
+  const { isCreating, createCabin } = useCreateCabin();
+
+  function handleDuplicate() {
+    createCabin({
+      name: `Copy of ${name}`,
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+      description,
+    });
+  }
 
   return (
     <>
@@ -60,9 +75,14 @@ const CabinRow = ({ cabin }) => {
         <Price>{formatCurrency(regularPrice)}</Price>
         {discount ? <Discount>{formatCurrency(discount)}</Discount> : <span>&mdash;</span>}
         <div>
-          <button onClick={() => setShowForm(show => !show)}>Edit</button>
+          <button onClick={handleDuplicate} disabled={isCreating}>
+            <HiSquare2Stack />
+          </button>
+          <button onClick={() => setShowForm(show => !show)}>
+            <HiPencil />
+          </button>
           <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
-            Delete
+            <HiTrash />
           </button>
         </div>
       </TableRow>
@@ -79,6 +99,7 @@ CabinRow.propTypes = {
     regularPrice: PropTypes.number.isRequired,
     discount: PropTypes.number.isRequired,
     image: PropTypes.string,
+    description: PropTypes.string.isRequired,
   }).isRequired,
 };
 
