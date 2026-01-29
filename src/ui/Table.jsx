@@ -39,9 +39,9 @@ const StyledRow = styled(CommonRow)`
   }
 `;
 
-// const StyledBody = styled.section`
-//   margin: 0.4rem 0;
-// `;
+const StyledBody = styled.section`
+  margin: 0.4rem 0;
+`;
 
 const Footer = styled.footer`
   background-color: var(--color-grey-50);
@@ -55,12 +55,12 @@ const Footer = styled.footer`
   }
 `;
 
-// const Empty = styled.p`
-//   font-size: 1.6rem;
-//   font-weight: 500;
-//   text-align: center;
-//   margin: 2.4rem;
-// `;
+const Empty = styled.p`
+  font-size: 1.6rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 2.4rem;
+`;
 
 const TableContext = createContext();
 
@@ -90,10 +90,14 @@ function Row({ children }) {
   );
 }
 
-// function Body({ children }) {}
+function Body({ data, render }) {
+  if (!data.length) return <Empty>No data to show at the moment.</Empty>;
+
+  return <StyledBody>{data.map(render)}</StyledBody>;
+}
 
 Table.Header = Header;
-// Table.Body = Body;
+Table.Body = Body;
 Table.Row = Row;
 Table.Footer = Footer;
 
@@ -104,6 +108,11 @@ Table.propTypes = {
 
 Header.propTypes = {
   children: PropTypes.element,
+};
+
+Body.propTypes = {
+  data: PropTypes.array.isRequired,
+  render: PropTypes.func.isRequired,
 };
 
 Row.propTypes = {
