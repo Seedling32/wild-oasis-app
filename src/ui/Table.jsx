@@ -103,11 +103,11 @@ Table.Footer = Footer;
 
 Table.propTypes = {
   columns: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.array,
 };
 
 Header.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.array,
 };
 
 Body.propTypes = {
@@ -116,7 +116,7 @@ Body.propTypes = {
 };
 
 Row.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.array,
 };
 
 export default Table;
