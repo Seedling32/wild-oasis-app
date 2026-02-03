@@ -92,8 +92,13 @@ BookingRow.propTypes = {
     numGuests: PropTypes.number,
     totalPrice: PropTypes.number,
     status: PropTypes.string,
-    guests: PropTypes.object,
-    cabins: PropTypes.object,
+    guests: PropTypes.shape({
+      fullName: PropTypes.string,
+      email: PropTypes.string,
+    }),
+    cabins: PropTypes.shape({
+      name: PropTypes.string,
+    }),
   }).isRequired,
 };
 
