@@ -17,7 +17,11 @@ const CommonRow = styled.div`
   grid-template-columns: ${props => props.columns};
   column-gap: 2.4rem;
   align-items: center;
+  justify-items: center;
   transition: none;
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
 `;
 
 const StyledHeader = styled(CommonRow)`
@@ -26,6 +30,7 @@ const StyledHeader = styled(CommonRow)`
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
   text-transform: uppercase;
+  text-align: center;
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);

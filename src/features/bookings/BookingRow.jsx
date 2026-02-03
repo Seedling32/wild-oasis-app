@@ -8,7 +8,7 @@ import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 
-const Cabin = styled.div`
+const Bold = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
@@ -37,8 +37,8 @@ const Amount = styled.div`
 
 function BookingRow({
   booking: {
-    id: bookingId,
-    created_at,
+    // id: bookingId,
+    // created_at,
     startDate,
     endDate,
     numNights,
@@ -55,16 +55,16 @@ function BookingRow({
     'checked-out': 'silver',
   };
 
-  console.log(bookingId, created_at, numGuests);
-
   return (
     <Table.Row>
-      <Cabin>{cabinName}</Cabin>
+      <Bold>{cabinName}</Bold>
 
       <Stacked>
         <span>{guestName}</span>
         <span>{email}</span>
       </Stacked>
+
+      <Bold>{numGuests}</Bold>
 
       <Stacked>
         <span>
